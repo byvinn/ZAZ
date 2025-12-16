@@ -1,3 +1,14 @@
+import component.*;
+import component.Character;
+import db.*;
+import managment.ManagementSystem;
+import search.SearchHistory;
+import repository.*;
+import repository.jdbc.*;
+import service.*;
+import filter.*;
+import builder.CharacterBuilder;
+
 import java.sql.Connection;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -8,7 +19,7 @@ public class ZazManagementSystem {
     private Scanner scanner;
     private User currentUser;
     private SearchHistory searchHistory;
-    private MediaManagementFacade facade;
+    private ManagementSystem facade;
 
     public ZazManagementSystem() {
         provider = new SQLiteConnection();
@@ -31,7 +42,7 @@ public class ZazManagementSystem {
         UserService userService = new UserService(userRepo);
         FavoriteService favoriteService = new FavoriteService(favRepo);
 
-        facade = new MediaManagementFacade(mediaService, characterService, userService, favoriteService);
+        facade = new ManagementSystem(mediaService, characterService, userService, favoriteService);
     }
 
     public void start() {
@@ -483,6 +494,7 @@ public class ZazManagementSystem {
                 showMediaDetails(media);
             }
             case 3 -> viewAuthorProfile(authorId, authorName);
+            case 4 -> browseMedia();
         }
     }
 
@@ -511,14 +523,14 @@ public class ZazManagementSystem {
 
     private void editMediaFilters(FilterComposite<Media> currentFilter) {
         FilterComposite<Media> newFilter = new FilterComposite<>();
-        List<String> activeFilters = new ArrayList<>();
+        Map<String, String> activeFilters = new HashMap<>();
 
         while (true) {
             System.out.println("\n▀▄▀▄▀▄▀▄▀▄▀▄ Filters ▀▄▀▄▀▄▀▄▀▄▀▄");
-            System.out.println("1. Type: " + activeFilters.stream().filter(f -> f.startsWith("Type:")).findFirst().orElse(""));
-            System.out.println("2. Genre: ");
-            System.out.println("3. Release date: ");
-            System.out.println("4. Hashtag: ");
+            System.out.println("1. Type: " + activeFilters.getOrDefault("Type", ""));
+            System.out.println("2. Genre: " + activeFilters.getOrDefault("Genre", ""));
+            System.out.println("3. Release date: " + activeFilters.getOrDefault("Release date", ""));
+            System.out.println("4. Hashtag: " + activeFilters.getOrDefault("Hashtag", ""));
             System.out.println("0. Apply filters");
             System.out.print("Choose option: ");
 
@@ -547,8 +559,7 @@ public class ZazManagementSystem {
                             .collect(Collectors.toSet());
                     if (!types.isEmpty()) {
                         newFilter.add(new TypeFilterStrategy(types));
-                        activeFilters.removeIf(f -> f.startsWith("Type:"));
-                        activeFilters.add("Type: " + String.join(", ", types));
+                        activeFilters.put("Type", String.join(", ", types));
                     }
                 }
                 case 2 -> {
@@ -566,23 +577,20 @@ public class ZazManagementSystem {
                             .collect(Collectors.toSet());
                     if (!genres.isEmpty()) {
                         newFilter.add(new GenreFilterStrategy(genres));
-                        activeFilters.removeIf(f -> f.startsWith("Genre:"));
-                        activeFilters.add("Genre: " + String.join(", ", genres));
+                        activeFilters.put("Genre", String.join(", ", genres));
                     }
                 }
                 case 3 -> {
                     System.out.print("Enter release date (YYYY or YYYY-MM-DD): ");
                     String date = scanner.nextLine();
                     newFilter.add(new ReleaseDateFilterStrategy(date));
-                    activeFilters.removeIf(f -> f.startsWith("Release:"));
-                    activeFilters.add("Release: " + date);
+                    activeFilters.put("Release date", String.join(", ", date));
                 }
                 case 4 -> {
                     System.out.print("Enter hashtag: ");
                     String hashtag = scanner.nextLine();
                     newFilter.add(new HashtagMediaFilterStrategy(hashtag));
-                    activeFilters.removeIf(f -> f.startsWith("Hashtag:"));
-                    activeFilters.add("Hashtag: " + hashtag);
+                    activeFilters.put("Hashtag", String.join(", ", hashtag));
                 }
             }
         }
@@ -651,19 +659,21 @@ public class ZazManagementSystem {
                 showCharacterDetails(character);
             }
             case 2 -> viewAuthorProfile(authorId, authorName);
+            case 3 -> browseCharacters();
         }
     }
 
     private void editCharacterFilters(FilterComposite<Character> currentFilter) {
         FilterComposite<Character> newFilter = new FilterComposite<>();
+        Map<String, String> activeFilters = new HashMap<>();
 
         while (true) {
             System.out.println("\n▀▄▀▄▀▄▀▄▀▄▀▄ Filters ▀▄▀▄▀▄▀▄▀▄▀▄");
-            System.out.println("1. Add Age filter");
-            System.out.println("2. Add Birthday filter");
-            System.out.println("3. Add Species filter");
-            System.out.println("4. Add Activity filter");
-            System.out.println("5. Add Hashtag filter");
+            System.out.println("1. Age: " + activeFilters.getOrDefault("Age", ""));
+            System.out.println("2. Birthday: " + activeFilters.getOrDefault("Birthday", ""));
+            System.out.println("3. Species: " + activeFilters.getOrDefault("Species", ""));
+            System.out.println("4. Activity: " + activeFilters.getOrDefault("Activity", ""));
+            System.out.println("5. Hashtag: " + activeFilters.getOrDefault("Hashtag", ""));
             System.out.println("0. Apply filters");
             System.out.print("Choose option: ");
 
@@ -681,26 +691,31 @@ public class ZazManagementSystem {
                     System.out.print("Enter age: ");
                     String age = scanner.nextLine();
                     newFilter.add(new AgeCharacterFilterStrategy(age));
+                    activeFilters.put("Age", String.join(", ", age));
                 }
                 case 2 -> {
                     System.out.print("Enter birthday: ");
                     String birthday = scanner.nextLine();
                     newFilter.add(new BirthdayCharacterFilterStrategy(birthday));
+                    activeFilters.put("Birthday", String.join(", ", birthday));
                 }
                 case 3 -> {
                     System.out.print("Enter species: ");
                     String species = scanner.nextLine();
                     newFilter.add(new SpeciesCharacterFilterStrategy(species));
+                    activeFilters.put("Species", String.join(", ", species));
                 }
                 case 4 -> {
                     System.out.print("Enter activity: ");
                     String activity = scanner.nextLine();
                     newFilter.add(new ActivityCharacterFilterStrategy(activity));
+                    activeFilters.put("Activity", String.join(", ", activity));
                 }
                 case 5 -> {
                     System.out.print("Enter hashtag: ");
                     String hashtag = scanner.nextLine();
                     newFilter.add(new HashtagCharacterFilterStrategy(hashtag));
+                    activeFilters.put("Hashtag", String.join(", ", hashtag));
                 }
             }
         }
@@ -1083,7 +1098,7 @@ public class ZazManagementSystem {
     }
 
     public static void main(String[] args) {
-        MediaManagementSystem system = new MediaManagementSystem();
+        ZazManagementSystem system = new ZazManagementSystem();
         system.start();
     }
 }
