@@ -1,8 +1,5 @@
 import java.sql.Connection;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Scanner;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class ZazManagementSystem {
@@ -514,13 +511,14 @@ public class ZazManagementSystem {
 
     private void editMediaFilters(FilterComposite<Media> currentFilter) {
         FilterComposite<Media> newFilter = new FilterComposite<>();
+        List<String> activeFilters = new ArrayList<>();
 
         while (true) {
             System.out.println("\n▀▄▀▄▀▄▀▄▀▄▀▄ Filters ▀▄▀▄▀▄▀▄▀▄▀▄");
-            System.out.println("1. Add Type filter");
-            System.out.println("2. Add Genre filter");
-            System.out.println("3. Add Release date filter");
-            System.out.println("4. Add Hashtag filter");
+            System.out.println("1. Type: " + activeFilters.stream().filter(f -> f.startsWith("Type:")).findFirst().orElse(""));
+            System.out.println("2. Genre: ");
+            System.out.println("3. Release date: ");
+            System.out.println("4. Hashtag: ");
             System.out.println("0. Apply filters");
             System.out.print("Choose option: ");
 
@@ -549,6 +547,8 @@ public class ZazManagementSystem {
                             .collect(Collectors.toSet());
                     if (!types.isEmpty()) {
                         newFilter.add(new TypeFilterStrategy(types));
+                        activeFilters.removeIf(f -> f.startsWith("Type:"));
+                        activeFilters.add("Type: " + String.join(", ", types));
                     }
                 }
                 case 2 -> {
@@ -566,17 +566,23 @@ public class ZazManagementSystem {
                             .collect(Collectors.toSet());
                     if (!genres.isEmpty()) {
                         newFilter.add(new GenreFilterStrategy(genres));
+                        activeFilters.removeIf(f -> f.startsWith("Genre:"));
+                        activeFilters.add("Genre: " + String.join(", ", genres));
                     }
                 }
                 case 3 -> {
                     System.out.print("Enter release date (YYYY or YYYY-MM-DD): ");
                     String date = scanner.nextLine();
                     newFilter.add(new ReleaseDateFilterStrategy(date));
+                    activeFilters.removeIf(f -> f.startsWith("Release:"));
+                    activeFilters.add("Release: " + date);
                 }
                 case 4 -> {
                     System.out.print("Enter hashtag: ");
                     String hashtag = scanner.nextLine();
                     newFilter.add(new HashtagMediaFilterStrategy(hashtag));
+                    activeFilters.removeIf(f -> f.startsWith("Hashtag:"));
+                    activeFilters.add("Hashtag: " + hashtag);
                 }
             }
         }
