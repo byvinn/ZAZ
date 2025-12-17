@@ -96,7 +96,7 @@ public class JdbcCharacterRepository implements CharacterRepository {
     @Override
     public void save(CharacterBuilder builder) {
         try {
-            String additionalFieldsJson = builder.getAdditionalFields().isEmpty() ? ""
+            String additionalFields = builder.getAdditionalFields().isEmpty() ? ""
                     : builder.getAdditionalFields().entrySet().stream()
                     .map(e -> e.getKey() + ":" + e.getValue())
                     .collect(Collectors.joining(";"));
@@ -111,7 +111,7 @@ public class JdbcCharacterRepository implements CharacterRepository {
             pstmt.setString(6, builder.getActivity());
             pstmt.setString(7, builder.getDescription());
             pstmt.setString(8, builder.getHashtags());
-            pstmt.setString(9, additionalFieldsJson);
+            pstmt.setString(9, additionalFields);
             pstmt.setInt(10, builder.getMediaId());
             pstmt.executeUpdate();
         } catch (SQLException e) {

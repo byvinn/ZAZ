@@ -433,10 +433,10 @@ public class ZazManagementSystem {
     private void browseMedia() {
         FilterComposite<Media> filter = new FilterComposite<>();
         List<Media> mediaList = facade.browseMedia(filter);
-        browseMediaWithFilter(mediaList, filter);
+        browseMediaWithFilter(mediaList);
     }
 
-    private void browseMediaWithFilter(List<Media> mediaList, FilterComposite<Media> currentFilter) {
+    private void browseMediaWithFilter(List<Media> mediaList) {
         if (mediaList.isEmpty()) {
             System.out.println("No media available.");
             return;
@@ -464,7 +464,7 @@ public class ZazManagementSystem {
                     showMediaDetails(mediaList.get(mediaChoice - 1));
                 }
             }
-            case 2 -> editMediaFilters(currentFilter);
+            case 2 -> editMediaFilters();
         }
     }
 
@@ -521,7 +521,7 @@ public class ZazManagementSystem {
         }
     }
 
-    private void editMediaFilters(FilterComposite<Media> currentFilter) {
+    private void editMediaFilters() {
         FilterComposite<Media> newFilter = new FilterComposite<>();
         Map<String, String> activeFilters = new HashMap<>();
 
@@ -539,7 +539,7 @@ public class ZazManagementSystem {
 
             if (choice == 0) {
                 List<Media> filtered = facade.browseMedia(newFilter);
-                browseMediaWithFilter(filtered, newFilter);
+                browseMediaWithFilter(filtered);
                 return;
             }
 
@@ -599,10 +599,10 @@ public class ZazManagementSystem {
     private void browseCharacters() {
         FilterComposite<Character> filter = new FilterComposite<>();
         List<Character> characters = facade.browseCharacters(filter);
-        browseCharactersWithFilter(characters, filter);
+        browseCharactersWithFilter(characters);
     }
 
-    private void browseCharactersWithFilter(List<Character> characters, FilterComposite<Character> currentFilter) {
+    private void browseCharactersWithFilter(List<Character> characters) {
         if (characters.isEmpty()) {
             System.out.println("No characters available.");
             return;
@@ -630,7 +630,7 @@ public class ZazManagementSystem {
                     showCharacterDetails(characters.get(charChoice - 1));
                 }
             }
-            case 2 -> editCharacterFilters(currentFilter);
+            case 2 -> editCharacterFilters();
         }
     }
 
@@ -664,7 +664,7 @@ public class ZazManagementSystem {
         }
     }
 
-    private void editCharacterFilters(FilterComposite<Character> currentFilter) {
+    private void editCharacterFilters() {
         FilterComposite<Character> newFilter = new FilterComposite<>();
         Map<String, String> activeFilters = new HashMap<>();
 
@@ -683,7 +683,7 @@ public class ZazManagementSystem {
 
             if (choice == 0) {
                 List<Character> filtered = facade.browseCharacters(newFilter);
-                browseCharactersWithFilter(filtered, newFilter);
+                browseCharactersWithFilter(filtered);
                 return;
             }
 

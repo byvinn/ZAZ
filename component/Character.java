@@ -54,8 +54,13 @@ public class Character {
     public String getName() { return name; }
     public int getAge() { return age; }
     public String getBirthday() { return birthday; }
+    public String getGender() { return gender; }
     public String getSpecies() { return species; }
     public String getActivity() { return activity; }
     public String getHashtags() { return hashtags; }
+    public String getDescription() { return description; }
     public int getMediaId() { return mediaId; }
+    public Map<String, String> getAdditionalFields() {
+        return additionalFields;
+    }
 }
