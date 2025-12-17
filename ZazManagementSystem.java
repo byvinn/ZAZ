@@ -261,7 +261,7 @@ public class ZazManagementSystem {
 
         System.out.println("\n=▀▄▀▄▀▄▀▄▀▄▀▄ Favorite Characters ▀▄▀▄▀▄▀▄▀▄▀▄");
         for (int i = 0; i < favorites.size(); i++) {
-            System.out.printf("%d. %s\n", i + 1, favorites.get(i).getName());
+            System.out.println(i + 1 + ". " + favorites.get(i).getName());
         }
 
         System.out.print("\nChoose character to remove (0 to go back): ");
@@ -285,7 +285,7 @@ public class ZazManagementSystem {
 
         System.out.println("\n▀▄▀▄▀▄▀▄▀▄▀▄ My Media ▀▄▀▄▀▄▀▄▀▄▀▄");
         for (int i = 0; i < myMedia.size(); i++) {
-            System.out.printf("%d. %s | %s\n", i + 1, myMedia.get(i).getTitle(), myMedia.get(i).getType());
+            System.out.println(i + 1 + ". " + myMedia.get(i).getTitle() + " | " + myMedia.get(i).getType());
         }
 
         System.out.print("\nChoose media to delete (0 to go back): ");
@@ -337,7 +337,7 @@ public class ZazManagementSystem {
 
         System.out.println("\nAvailable types:");
         for (int i = 0; i < MediaType.TYPES.length; i++) {
-            System.out.printf("%d. %s\n", i + 1, MediaType.TYPES[i]);
+            System.out.println(i + 1 + ". " + MediaType.TYPES[i]);
         }
         System.out.print("Choose type: ");
         int typeChoice = scanner.nextInt();
@@ -346,7 +346,7 @@ public class ZazManagementSystem {
 
         System.out.println("\nAvailable genres:");
         for (int i = 0; i < MediaGenre.GENRES.length; i++) {
-            System.out.printf("%d. %s\n", i + 1, MediaGenre.GENRES[i]);
+            System.out.println(i + 1 + ". " + MediaGenre.GENRES[i]);
         }
         System.out.print("Choose genre: ");
         int genreChoice = scanner.nextInt();
@@ -369,7 +369,7 @@ public class ZazManagementSystem {
 
         System.out.println("\nAvailable Media:");
         for (int i = 0; i < mediaList.size(); i++) {
-            System.out.printf("%d. %s\n", i + 1, mediaList.get(i).getTitle());
+            System.out.println(i + 1 + ". " + mediaList.get(i).getTitle());
         }
 
         System.out.print("Choose media number: ");
@@ -444,7 +444,7 @@ public class ZazManagementSystem {
 
         System.out.println("\n▀▄▀▄▀▄▀▄▀▄▀▄ All Media ▀▄▀▄▀▄▀▄▀▄▀▄");
         for (int i = 0; i < mediaList.size(); i++) {
-            System.out.printf("%d. ", i + 1);
+            System.out.print((i + 1) + ". ");
             mediaList.get(i).display();
         }
 
@@ -506,7 +506,7 @@ public class ZazManagementSystem {
 
         System.out.println("\n▀▄▀▄▀▄▀▄▀▄▀▄ Characters ▀▄▀▄▀▄▀▄▀▄▀▄");
         for (int i = 0; i < media.getCharacters().size(); i++) {
-            System.out.printf("%d. %s\n", i + 1, media.getCharacters().get(i).getName());
+            System.out.println(i + 1 + ". " + media.getCharacters().get(i).getName());
         }
 
         System.out.print("\nView character details (0 to go back): ");
@@ -547,7 +547,7 @@ public class ZazManagementSystem {
                 case 1 -> {
                     System.out.println("\nTypes:");
                     for (int i = 0; i < MediaType.TYPES.length; i++) {
-                        System.out.printf("%d. %s\n", i + 1, MediaType.TYPES[i]);
+                        System.out.println(i + 1 + ". " + MediaType.TYPES[i]);
                     }
                     System.out.print("Choose types (comma-separated): ");
                     String input = scanner.nextLine();
@@ -565,7 +565,7 @@ public class ZazManagementSystem {
                 case 2 -> {
                     System.out.println("\nGenres:");
                     for (int i = 0; i < MediaGenre.GENRES.length; i++) {
-                        System.out.printf("%d. %s\n", i + 1, MediaGenre.GENRES[i]);
+                        System.out.println(i + 1 + ". " + MediaGenre.GENRES[i]);
                     }
                     System.out.print("Choose genres (comma-separated): ");
                     String input = scanner.nextLine();
@@ -610,7 +610,8 @@ public class ZazManagementSystem {
 
         System.out.println("\n▀▄▀▄▀▄▀▄▀▄▀▄ All Characters ▀▄▀▄▀▄▀▄▀▄▀▄");
         for (int i = 0; i < characters.size(); i++) {
-            System.out.printf("%d. %s\n", i + 1, characters.get(i).getName());
+            Media media = facade.viewMediaDetails(characters.get(i).getMediaId());
+            System.out.println(i + 1 + ". " + characters.get(i).getName() + " | " + media.getTitle());
         }
 
         System.out.println("\n1. Show details");
@@ -726,7 +727,7 @@ public class ZazManagementSystem {
             System.out.println("\n▀▄▀▄▀▄▀▄▀▄▀▄ Search History ▀▄▀▄▀▄▀▄▀▄▀▄");
             List<String> history = searchHistory.getHistory();
             for (int i = 0; i < history.size(); i++) {
-                System.out.printf("%d. %s\n", i + 1, history.get(i));
+                System.out.println(i + 1 + ". " + history.get(i));
             }
         }
 
@@ -768,14 +769,14 @@ public class ZazManagementSystem {
         if (!foundMedia.isEmpty()) {
             found = true;
             for (int i = 0; i < foundMedia.size(); i++) {
-                System.out.printf("[Media %d] %s | %s\n", i + 1, foundMedia.get(i).getTitle(), foundMedia.get(i).getType());
+                System.out.println("[Media " + i + 1 + "]" + foundMedia.get(i).getTitle() + " | " + foundMedia.get(i).getType());
             }
         }
 
         if (!foundCharacters.isEmpty()) {
             found = true;
             for (int i = 0; i < foundCharacters.size(); i++) {
-                System.out.printf("[Character %d] %s\n", i + 1, foundCharacters.get(i).getName());
+                System.out.println("[Character  " + i + 1 + "]" + foundCharacters.get(i).getName());
             }
         }
 
@@ -821,7 +822,7 @@ public class ZazManagementSystem {
             if (mediaList.isEmpty()) return;
 
             for (int i = 0; i < mediaList.size(); i++) {
-                System.out.printf("%d. %s\n", i + 1, mediaList.get(i).getTitle());
+                System.out.println(i + 1 + ". " + mediaList.get(i).getTitle());
             }
             System.out.print("Choose media to delete: ");
             int del = scanner.nextInt();
@@ -836,7 +837,7 @@ public class ZazManagementSystem {
             if (characters.isEmpty()) return;
 
             for (int i = 0; i < characters.size(); i++) {
-                System.out.printf("%d. %s\n", i + 1, characters.get(i).getName());
+                System.out.println(i + 1 + ". " + characters.get(i).getName());
             }
             System.out.print("Choose character to delete: ");
             int del = scanner.nextInt();
@@ -850,9 +851,105 @@ public class ZazManagementSystem {
     }
 
     private void manageUsers() {
+        List<User> allUsers = facade.getAllUsers();
+
+        if (allUsers.isEmpty()) {
+            System.out.println("No users found.");
+            return;
+        }
+
+        for (int i = 0; i < allUsers.size(); i++) {
+            User user = allUsers.get(i);
+            String role = user.isAdmin() ? "[ADMIN]" : "[USER]";
+            System.out.printf("%d. %s %s - %s\n",
+                    i + 1,
+                    role,
+                    user.getUsername(),
+                    user.getEmail() != null ? user.getEmail() : "No email"
+            );
+        }
+
+        System.out.println("\n1. Delete user");
+        System.out.println("2. View user profile");
+        System.out.println("3. Go back");
+        System.out.print("Choose option: ");
+        int choice = scanner.nextInt();
+        scanner.nextLine();
+
+        switch (choice) {
+            case 1 -> deleteUser(allUsers);
+            case 2 -> viewUserProfile(allUsers);
+            case 3 -> { return; }
+            default -> {
+                System.out.println("Invalid option!");
+                manageUsers();
+            }
+        }
         System.out.println("\n▀▄▀▄▀▄▀▄▀▄▀▄ All Users ▀▄▀▄▀▄▀▄▀▄▀▄");
-        // Note: This would need a method in facade to get all users
-        System.out.println("User management functionality - implement getUserList in facade");
+    }
+
+    private void deleteUser(List<User> allUsers) {
+        System.out.print("\nEnter user number to delete (0 to cancel): ");
+        int userChoice = scanner.nextInt();
+        scanner.nextLine();
+
+        if (userChoice == 0) {
+            manageUsers();
+            return;
+        }
+
+        if (userChoice < 1 || userChoice > allUsers.size()) {
+            System.out.println("Invalid user number!");
+            manageUsers();
+            return;
+        }
+
+        User selectedUser = allUsers.get(userChoice - 1);
+
+        if (selectedUser.getId() == currentUser.getId()) {
+            System.out.println("You cannot delete yourself!");
+            manageUsers();
+            return;
+        }
+
+        if (selectedUser.isAdmin()) {
+            System.out.println("Cannot delete admin users!");
+            manageUsers();
+            return;
+        }
+
+        System.out.print("Are you sure you want to delete user " + selectedUser.getUsername() + "(yes/no): ");
+        String confirmation = scanner.nextLine();
+
+        if (confirmation.equalsIgnoreCase("yes")) {
+            facade.deleteUser(selectedUser.getId());
+            System.out.println("User '" + selectedUser.getUsername() + "' deleted successfully!");
+        } else {
+            System.out.println("Deletion cancelled.");
+        }
+
+        manageUsers();
+    }
+
+    private void viewUserProfile(List<User> allUsers) {
+        System.out.print("\nEnter user number to view profile (0 to cancel): ");
+        int userChoice = scanner.nextInt();
+        scanner.nextLine();
+
+        if (userChoice == 0) {
+            manageUsers();
+            return;
+        }
+
+        if (userChoice < 1 || userChoice > allUsers.size()) {
+            System.out.println("Invalid user number!");
+            manageUsers();
+            return;
+        }
+
+        User selectedUser = allUsers.get(userChoice - 1);
+        viewAuthorProfile(selectedUser.getId(), selectedUser.getUsername());
+        manageUsers();
     }
 
     private void viewAuthorProfile(int authorId, String authorName) {
@@ -864,19 +961,12 @@ public class ZazManagementSystem {
         List<Character> authorCharacters = facade.getUserCharacters(authorId);
         System.out.println("Characters created: " + authorCharacters.size());
 
-        // Show favorites count if not admin
         try {
-            Connection conn = dbManager.getConnection();
-            UserRepository userRepo = new JdbcUserRepository(conn);
-            boolean isAuthorAdmin = userRepo.isAdmin(authorId);
+            boolean isAuthorAdmin = facade.isUserAdmin(authorId);
 
             if (!isAuthorAdmin) {
-                CharacterRepository charRepo = new JdbcCharacterRepository(conn);
-                FavoriteRepository favRepo = new JdbcFavoriteRepository(conn, charRepo);
-                FavoriteService favService = new FavoriteService(favRepo);
-
-                int favMediaCount = favService.countFavoriteMedia(authorId);
-                int favCharCount = favService.countFavoriteCharacters(authorId);
+                int favMediaCount = facade.countUserFavoriteMedia(authorId);
+                int favCharCount = facade.countUserFavoriteCharacters(authorId);
                 System.out.println("Favorites: " + (favMediaCount + favCharCount) + " (" + favMediaCount + " media, " + favCharCount + " characters)");
             }
         } catch (Exception e) {
@@ -909,7 +999,7 @@ public class ZazManagementSystem {
 
         System.out.println("\n▀▄▀▄▀▄▀▄▀▄▀▄ " + authorName + "'s Media ▀▄▀▄▀▄▀▄▀▄▀▄");
         for (int i = 0; i < mediaList.size(); i++) {
-            System.out.printf("%d. %s | %s\n", i + 1, mediaList.get(i).getTitle(), mediaList.get(i).getType());
+            System.out.println(i + 1 + ". " + mediaList.get(i).getTitle() + " | " + mediaList.get(i).getType());
         }
 
         System.out.print("\nChoose media for details (0 to go back): ");
@@ -957,7 +1047,7 @@ public class ZazManagementSystem {
 
         System.out.println("\n▀▄▀▄▀▄▀▄▀▄▀▄ " + authorName + "'s Characters ▀▄▀▄▀▄▀▄▀▄▀▄");
         for (int i = 0; i < characterList.size(); i++) {
-            System.out.printf("%d. %s\n", i + 1, characterList.get(i).getName());
+            System.out.println(i + 1 + ". " + characterList.get(i).getName());
         }
 
         System.out.print("\nChoose character for details (0 to go back): ");
@@ -1009,14 +1099,14 @@ public class ZazManagementSystem {
         if (!favoriteMedia.isEmpty()) {
             System.out.println("\nFavorite Media:");
             for (int i = 0; i < favoriteMedia.size(); i++) {
-                System.out.printf("M%d. %s | %s\n", i + 1, favoriteMedia.get(i).getTitle(), favoriteMedia.get(i).getType());
+                System.out.println("M" + i + 1 + ". " + favoriteMedia.get(i).getTitle() + " | " + favoriteMedia.get(i).getType());
             }
         }
 
         if (!favoriteCharacters.isEmpty()) {
             System.out.println("\nFavorite Characters:");
             for (int i = 0; i < favoriteCharacters.size(); i++) {
-                System.out.printf("C%d. %s\n", i + 1, favoriteCharacters.get(i).getName());
+                System.out.println("C" + i + 1 + ". " + favoriteCharacters.get(i).getName());
             }
         }
 

@@ -60,6 +60,10 @@ public class ManagementSystem {
     }
 
     // User operations
+    public List<User> getAllUsers() {
+        return userService.getAllUsersExcept(-1);
+    }
+
     public User login(String username, String password) {
         return userService.login(username, password);
     }
@@ -70,6 +74,18 @@ public class ManagementSystem {
 
     public void deleteUser(int userId) {
         userService.deleteUser(userId);
+    }
+
+    public boolean isUserAdmin(int userId) {
+        return userService.isAdmin(userId);
+    }
+
+    public int countUserFavoriteMedia(int userId) {
+        return favoriteService.countFavoriteMedia(userId);
+    }
+
+    public int countUserFavoriteCharacters(int userId) {
+        return favoriteService.countFavoriteCharacters(userId);
     }
 
     // Favorite operations
